@@ -39,7 +39,7 @@ export const NotePage = ({ history }) => {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(note),
+        body: JSON.stringify({ ...note, "updated": new Date() }),
       });
     }
     handleCreate();
@@ -53,7 +53,7 @@ export const NotePage = ({ history }) => {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ ...note, updated: new Date() }),
+        body: JSON.stringify({ ...note, "updated": new Date() }),
       });
     }
     if (id !== "new" && !note.body) {
