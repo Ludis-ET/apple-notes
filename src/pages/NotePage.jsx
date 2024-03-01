@@ -31,6 +31,20 @@ export const NotePage = ({ history }) => {
     navigate("/");
   }
 
+  function createNote(){
+    async function handleCreate() {
+      await fetch("http://localhost:3001/notes/", {
+        method: "CREATE",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(note),
+      });
+    }
+    handleCreate();
+    navigate("/");
+  }
+
   function handlesubmit() {
     async function handlePut() {
       await fetch(url, {
@@ -43,7 +57,7 @@ export const NotePage = ({ history }) => {
     }
     if (id !== "new" && !note.body) {
       handle2Delete();
-    } else {
+    } else if (id !== "new") {
       handlePut();
     }
     navigate("/");
