@@ -12,7 +12,7 @@ export const NotesListPage = () => {
       setNotes(data);
     }
     handleFetch();
-  }, ["http://localhost:3001/notes"]);
+  });
 
   return (
     <div className="notes">
