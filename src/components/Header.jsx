@@ -1,5 +1,7 @@
 export const Header = () => {
   return (
-    <div>Header</div>
-  )
-}
+    <div className="app-header">
+      <h1>Notes List</h1>
+    </div>
+  );
+};
