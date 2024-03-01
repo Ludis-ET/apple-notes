@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ListItem } from "../components/ListItem";
+import { AddButton } from "../components/AddButton";
 
 export const NotesListPage = () => {
   const [notes, setNotes] = useState([]);
@@ -11,7 +12,7 @@ export const NotesListPage = () => {
       setNotes(data);
     }
     handleFetch();
-  }, []);
+  }, ["http://localhost:3001/notes"]);
 
   return (
     <div className="notes">
@@ -24,6 +25,7 @@ export const NotesListPage = () => {
           <ListItem key={index} note={note} />
         ))}
       </div>
+      <AddButton />
     </div>
   );
 };

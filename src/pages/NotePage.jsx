@@ -10,6 +10,7 @@ export const NotePage = ({ history }) => {
 
   useEffect(() => {
     async function handleFetch() {
+      if (id === "new") return;
       const response = await fetch(url);
       const data = await response.json();
       setNote(data);
@@ -31,10 +32,10 @@ export const NotePage = ({ history }) => {
     navigate("/");
   }
 
-  function createNote(){
+  function createNote() {
     async function handleCreate() {
       await fetch("http://localhost:3001/notes/", {
-        method: "CREATE",
+        method: "POST",
         headers: {
           "Content-type": "application/json",
         },
@@ -59,6 +60,8 @@ export const NotePage = ({ history }) => {
       handle2Delete();
     } else if (id !== "new") {
       handlePut();
+    } else if (id === "new" && note.length !== 0) {
+      createNote();
     }
     navigate("/");
   }
@@ -70,7 +73,11 @@ export const NotePage = ({ history }) => {
             <img src={arrow} alt="" onClick={handlesubmit} />
           </div>
         </h3>
-        <button onClick={handle2Delete}>Delete</button>
+        {id !== "new" ? (
+          <button onClick={handle2Delete}>Delete</button>
+        ) : (
+          <button onClick={handlesubmit}>Done</button>
+        )}
       </div>
       <textarea
         name=""
