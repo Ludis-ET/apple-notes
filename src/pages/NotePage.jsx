@@ -17,18 +17,35 @@ export const NotePage = ({ history }) => {
     handleFetch();
   }, [url]);
 
-  async function handlePut() {
-    await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({ ...note, updated: new Date() }),
-    });
+  function handle2Delete() {
+    async function handleDelete() {
+      await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(note),
+      });
+    }
+    handleDelete();
+    navigate("/");
   }
 
   function handlesubmit() {
-    handlePut();
+    async function handlePut() {
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ ...note, updated: new Date() }),
+      });
+    }
+    if (id !== "new" && !note.body) {
+      handle2Delete();
+    } else {
+      handlePut();
+    }
     navigate("/");
   }
   return (
@@ -39,7 +56,7 @@ export const NotePage = ({ history }) => {
             <img src={arrow} alt="" onClick={handlesubmit} />
           </div>
         </h3>
-        <button>Delete</button>
+        <button onClick={handle2Delete}>Delete</button>
       </div>
       <textarea
         name=""
