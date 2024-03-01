@@ -1,11 +1,13 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import arrow from "../assets/arrow-left.svg";
 import { useEffect, useState } from "react";
 
-export const NotePage = (props) => {
+export const NotePage = ({ history }) => {
   const [note, setNote] = useState([]);
+  const navigate = useNavigate();
   const { id } = useParams();
   let url = `http://localhost:3001/notes/${id}`;
+
   useEffect(() => {
     async function handleFetch() {
       const response = await fetch(url);
@@ -15,15 +17,29 @@ export const NotePage = (props) => {
     handleFetch();
   }, [url]);
 
-  
+  async function handlePut() {
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ ...note, updated: new Date() }),
+    });
+  }
+
+  function handlesubmit() {
+    handlePut();
+    navigate("/");
+  }
   return (
     <div className="note">
       <div className="note-header">
         <h3>
-          <Link to="/">
-            <img src={arrow} alt="" />{" "}
-          </Link>
+          <div>
+            <img src={arrow} alt="" onClick={handlesubmit} />
+          </div>
         </h3>
+        <button>Delete</button>
       </div>
       <textarea
         name=""
