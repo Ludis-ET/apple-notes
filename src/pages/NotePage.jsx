@@ -3,10 +3,11 @@ import arrow from "../assets/arrow-left.svg";
 import { useEffect, useState } from "react";
 
 export const NotePage = ({ history }) => {
+  const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND;
   const [note, setNote] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
-  let url = `http://localhost:3001/notes/${id}`;
+  let url = `${apiUrl}notes/${id}/`;
 
   useEffect(() => {
     async function handleFetch() {
@@ -20,12 +21,11 @@ export const NotePage = ({ history }) => {
 
   function handle2Delete() {
     async function handleDelete() {
-      await fetch(url, {
+      await fetch(`${apiUrl}notes/${id}/delete/`, {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
-        },
-        body: JSON.stringify(note),
+        }
       });
     }
     handleDelete();
@@ -34,7 +34,7 @@ export const NotePage = ({ history }) => {
 
   function createNote() {
     async function handleCreate() {
-      await fetch("http://localhost:3001/notes/", {
+      await fetch(`${apiUrl}notes/create/`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -46,16 +46,16 @@ export const NotePage = ({ history }) => {
     navigate("/");
   }
 
+  async function handlePut() {
+    await fetch(`${apiUrl}notes/${id}/update/`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(note),
+    });
+  }
   function handlesubmit() {
-    async function handlePut() {
-      await fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ ...note, "updated": new Date() }),
-      });
-    }
     if (id !== "new" && !note.body) {
       handle2Delete();
     } else if (id !== "new") {

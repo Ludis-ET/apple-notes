@@ -3,17 +3,16 @@ import { ListItem } from "../components/ListItem";
 import { AddButton } from "../components/AddButton";
 
 export const NotesListPage = () => {
+  const apiUrl = import.meta.env.VITE_REACT_APP_BACKEND;
   const [notes, setNotes] = useState([]);
-
   useEffect(() => {
     async function handleFetch() {
-      const response = await fetch("http://localhost:3001/notes");
+      const response = await fetch(`${apiUrl}notes/`);
       const data = await response.json();
       setNotes(data);
     }
     handleFetch();
-  });
-
+  },[]);
   return (
     <div className="notes">
       <div className="notes-header">
